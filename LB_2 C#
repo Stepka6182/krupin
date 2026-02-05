@@ -1,0 +1,45 @@
+using System;
+
+public class Givotnue{
+
+    public string Name { get; set; }
+    public string Carstvo { get; set; }
+    public string otrad { get; set; }
+
+    public Givotnue(string name, string carstvo, string otrad)
+    {
+        Name = name;
+        Carstvo = carstvo;
+        this.otrad = otrad;
+    }
+
+    public void SW()
+    {
+        Console.WriteLine($"{Name}");
+    }
+}
+public class Vild : Givotnue { 
+
+    public string Vid {  get; set; }
+
+    public Vild(string name, string carstvo, string otrad, string vid)
+       : base(name, carstvo, otrad)
+    {
+        Vid = vid;
+    }
+
+    public void Vv()
+    {
+        Console.WriteLine($"Имя: {Name} | Царство: {Carstvo} | Отряд: {otrad} | Вид: {Vid}");
+    }
+}
+public class program { 
+    public static void Main()
+    {
+        Vild stepka = new Vild("Бурый Медведь", "Животные", "Хищные", "Бурый медведь");
+
+        stepka.SW();
+        stepka.Vv();
+
+    }
+}
