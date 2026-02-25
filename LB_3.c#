@@ -1,0 +1,40 @@
+using System;
+using Excel = Microsoft.Office.Interop.Excel; // Добавьте этот псевдоним
+
+namespace Excelttt
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Excel.Application excelApp = new Excel.Application();
+
+            if (excelApp == null)
+            {
+                Console.WriteLine("Excel isn't installed!");
+                return;
+            }
+
+            Excel.Workbook excelbook = excelApp.Workbooks.Open(@"C:\Users\Stepa\Desktop\wqe.xlsx");
+            Excel._Worksheet excelSheet = excelbook.Sheets[1];
+            Excel.Range excelRange = excelSheet.UsedRange; // Теперь всё работает
+
+            int rows = excelRange.Rows.Count;
+            int cols = excelRange.Columns.Count;
+
+            for (int i = 1; i <= rows; i++)
+            {
+                Console.Write("\r\n");
+                for (int j = 1; j <= cols; j++)
+                {
+                    if (excelRange.Cells[i, j] != null && excelRange.Cells[i, j].Value2 != null)
+                        Console.Write(excelRange.Cells[i, j].Value2.ToString() + "\t");
+                }
+            }
+
+            excelApp.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+            Console.ReadLine();
+        }
+    }
+}
