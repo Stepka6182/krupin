@@ -1,0 +1,16 @@
+using System.Diagnostics;
+
+foreach(Process process in Process.GetProcesses())
+{
+    Console.WriteLine($"ID:{process.Id}   Name:{process.ProcessName}");
+}
+Process process1 = Process.GetProcessesByName("devenv")[0];
+ProcessThreadCollection processThread = process1.Threads;
+
+foreach(ProcessThread thread in processThread)
+{
+    Console.WriteLine($"ThreadID:{thread.Id}");
+}
+
+Process.Start(@"explorer.exe");
+Process.Start(@"C:\Program Files\Google\Chrome\Application\chrome");
