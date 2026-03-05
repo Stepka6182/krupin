@@ -1,0 +1,166 @@
+using System;
+using System.IO;
+using System.Net;
+using System.Text;
+
+namespace SimpleDataDownloader
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("=== ПРОГРАММА ЗАГРУЗКИ ДАННЫХ ===\n");
+
+            // РАБОЧИЕ ССЫЛКИ (проверены 2026)
+            string[] urls = new string[]
+            {
+                "https://raw.githubusercontent.com/datasets/population/master/data/population.csv",
+                "https://raw.githubusercontent.com/datasets/gdp/master/data/gdp.csv",
+                "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv",
+            };
+
+            string[] names = new string[]
+            {
+                "Население стран мира",
+                "ВВП стран мира",
+                "Данные по COVID-19",
+            };
+
+            // Выводим меню
+            Console.WriteLine("Выберите набор данных для загрузки:");
+            for (int i = 0; i < names.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {names[i]}");
+            }
+
+            Console.Write("\nВаш выбор (1-3): ");
+            string choice = Console.ReadLine();
+
+            string selectedUrl = "";
+            string selectedName = "";
+
+            switch (choice)
+            {
+                case "1":
+                    selectedUrl = urls[0];
+                    selectedName = names[0];
+                    break;
+                case "2":
+                    selectedUrl = urls[1];
+                    selectedName = names[1];
+                    break;
+                case "3":
+                    selectedUrl = urls[2];
+                    selectedName = names[2];
+                    break;
+                default:
+                    Console.WriteLine("Неверный выбор. Использую данные по умолчанию.");
+                    selectedUrl = urls[0];
+                    selectedName = names[0];
+                    break;
+            }
+
+            // Скачиваем и обрабатываем
+            DownloadAndShowData(selectedUrl, selectedName);
+
+            Console.WriteLine("\nНажмите любую клавишу для выхода...");
+            Console.ReadKey();
+        }
+
+        static void DownloadAndShowData(string url, string dataName)
+        {
+            try
+            {
+                Console.WriteLine($"\nЗагружаю: {dataName}");
+                Console.WriteLine($"URL: {url}");
+                Console.WriteLine(new string('-', 60));
+
+                // Создаем WebClient
+                using (WebClient client = new WebClient())
+                {
+                    // Добавляем заголовки как у браузера
+                    client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
+                    client.Encoding = Encoding.UTF8;
+
+                    // Скачиваем данные
+                    Console.WriteLine("Скачивание...");
+                    string data = client.DownloadString(url);
+
+                    // Показываем размер
+                    Console.WriteLine($"Размер данных: {data.Length} символов");
+                    Console.WriteLine(new string('-', 60));
+
+                    // Разбиваем на строки
+                    string[] lines = data.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    Console.WriteLine($"Всего строк: {lines.Length}");
+
+                    if (lines.Length > 0)
+                    {
+                        // Показываем первые 10 строк
+                        Console.WriteLine("\nПервые 10 строк данных:");
+                        Console.WriteLine(new string('-', 60));
+
+                        for (int i = 0; i < Math.Min(10, lines.Length); i++)
+                        {
+                            string line = lines[i];
+
+                            // Если строка слишком длинная, обрезаем
+                            if (line.Length > 100)
+                                line = line.Substring(0, 97) + "...";
+
+                            Console.WriteLine($"Строка {i + 1}: {line}");
+                        }
+
+                        // Показываем структуру (заголовки)
+                        if (lines.Length > 0)
+                        {
+                            Console.WriteLine(new string('-', 60));
+                            Console.WriteLine("\nСтруктура данных:");
+                            string[] headers = lines[0].Split(',');
+                            for (int i = 0; i < Math.Min(10, headers.Length); i++)
+                            {
+                                string header = headers[i].Trim('"');
+                                if (string.IsNullOrEmpty(header))
+                                    header = "Поле " + (i + 1);
+                                Console.WriteLine($"  Столбец {i + 1}: {header}");
+                            }
+                        }
+                    }
+
+                    // Спрашиваем, сохранить ли файл
+                    Console.Write("\nСохранить файл на рабочий стол? (y/n): ");
+                    if (Console.ReadLine()?.ToLower() == "y")
+                    {
+                        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                        string fileName = $"data_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+                        string filePath = Path.Combine(desktop, fileName);
+
+                        File.WriteAllText(filePath, data, Encoding.UTF8);
+                        Console.WriteLine($"Файл сохранен: {filePath}");
+                    }
+                }
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine($"Ошибка загрузки: {ex.Message}");
+
+                // Показываем детали ошибки
+                if (ex.Response != null)
+                {
+                    using (var stream = ex.Response.GetResponseStream())
+                    using (var reader = new StreamReader(stream))
+                    {
+                        string response = reader.ReadToEnd();
+                        Console.WriteLine($"Ответ сервера: {response}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+                Console.WriteLine($"Тип ошибки: {ex.GetType().Name}");
+            }
+        }
+    }
+}
