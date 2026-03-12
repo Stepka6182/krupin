@@ -15,15 +15,11 @@ namespace SimpleDataDownloader
             string[] urls = new string[]
             {
                 "https://raw.githubusercontent.com/datasets/population/master/data/population.csv",
-                "https://raw.githubusercontent.com/datasets/gdp/master/data/gdp.csv",
-                "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv",
             };
 
             string[] names = new string[]
             {
                 "Население стран мира",
-                "ВВП стран мира",
-                "Данные по COVID-19",
             };
 
             // Выводим меню
