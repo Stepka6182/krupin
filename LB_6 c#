@@ -1,0 +1,109 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Linq;
+
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+{
+    var numbers = new List<int> { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
+    Console.WriteLine($"Создан список: {string.Join(", ", numbers)}");
+    Console.WriteLine($"Длина списка: {numbers.Count} элементов");
+
+    _ = numbers.Count >= 10;
+    Console.WriteLine($"Предпоследний элемент: {numbers[^2]}");
+
+    Console.WriteLine($"= {numbers[2]}");
+    Console.WriteLine($"= {numbers[3]}");
+    Console.WriteLine($"= {numbers[5]}");
+
+    Console.WriteLine($"До изменения: {string.Join(", ", numbers)}");
+    numbers[3] = 99;
+    Console.WriteLine($"После изменения: {string.Join(", ", numbers)}");
+
+    var slice = numbers.GetRange(2, 5);
+    Console.WriteLine($"Элементы с 3-го по 7-й: {string.Join(", ", slice)}");
+
+    numbers.Add(812);
+    Console.WriteLine($"После добавления: {string.Join(", ", numbers)}");
+
+    int middle = numbers.Count / 2;
+    numbers.Insert(middle, 555);
+    Console.WriteLine($"После вставки на позицию {middle}: {string.Join(", ", numbers)}");
+
+    int a = 20;
+    int count = numbers.Count(x => x == a);
+    Console.WriteLine($"Число {a} встречается: {count} раз");
+
+    var numbers_copy = new List<int>(numbers);
+    Console.WriteLine($"Оригинал: {string.Join(", ", numbers)}");
+    Console.WriteLine($"Копия: {string.Join(", ", numbers_copy)}");
+
+    if (numbers_copy.Count > 0)
+    {
+        numbers_copy[0] = 999;
+        numbers_copy[^1] = 777;
+    }
+    Console.WriteLine($"Копия после изменений: {string.Join(", ", numbers_copy)}");
+
+    Console.WriteLine($"Оригинал и копия одинаковы? {numbers.SequenceEqual(numbers_copy)}");
+}
+
+
+
+int id = 1; 
+var users = new List<Person>
+{
+    new() { Id = id++, Name = "Tom", Age = 37 },
+    new() { Id = id++, Name = "Bob", Age = 41 },
+    new() { Id = id++, Name = "Sam", Age = 24 }
+};
+
+app.MapGet("/api/users", () => users);
+
+app.MapGet("/api/users/{id}", (int id) =>
+{
+    Person? user = users.FirstOrDefault(u => u.Id == id);
+    if (user == null)
+        return Results.NotFound(new { message = "Пользователь не найден" });
+    return Results.Json(user);
+});
+
+app.MapPost("/api/users", (Person user) =>
+{
+    user.Id = id++;
+    users.Add(user);
+    return Results.Json(user);
+});
+
+app.MapPut("/api/users", (Person userData) =>
+{
+    var user = users.FirstOrDefault(u => u.Id == userData.Id);
+    if (user == null)
+        return Results.NotFound(new { message = "Пользователь не найден" });
+
+    user.Name = userData.Name;
+    user.Age = userData.Age;
+    return Results.Json(user);
+});
+
+app.MapDelete("/api/users/{id}", (int id) =>
+{
+    Person? user = users.FirstOrDefault(u => u.Id == id);
+    if (user == null)
+        return Results.NotFound(new { message = "Пользователь не найден" });
+
+    users.Remove(user);
+    return Results.Json(user);
+});
+
+
+app.Run();
+
+public class Person
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int Age { get; set; }
+}
