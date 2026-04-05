@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Новый профиль",
+    "Projects": [
+      {
+        "Path": "ConsoleApp8\\ConsoleApp8.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "client\\client.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

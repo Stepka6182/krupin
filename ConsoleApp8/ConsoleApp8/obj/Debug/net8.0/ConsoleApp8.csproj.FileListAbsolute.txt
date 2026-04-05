@@ -1,0 +1,14 @@
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\bin\Debug\net8.0\ConsoleApp8.exe
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\bin\Debug\net8.0\ConsoleApp8.deps.json
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\bin\Debug\net8.0\ConsoleApp8.runtimeconfig.json
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\bin\Debug\net8.0\ConsoleApp8.dll
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\bin\Debug\net8.0\ConsoleApp8.pdb
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\obj\Debug\net8.0\ConsoleApp8.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\obj\Debug\net8.0\ConsoleApp8.AssemblyInfoInputs.cache
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\obj\Debug\net8.0\ConsoleApp8.AssemblyInfo.cs
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\obj\Debug\net8.0\ConsoleApp8.csproj.CoreCompileInputs.cache
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\obj\Debug\net8.0\ConsoleApp8.dll
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\obj\Debug\net8.0\refint\ConsoleApp8.dll
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\obj\Debug\net8.0\ConsoleApp8.pdb
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\obj\Debug\net8.0\ConsoleApp8.genruntimeconfig.cache
+C:\Users\Stepa\Desktop\LB_2\ConsoleApp8\ConsoleApp8\obj\Debug\net8.0\ref\ConsoleApp8.dll
